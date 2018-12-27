@@ -1,11 +1,11 @@
 #include "init_playfield.h"
 
-const int   InitPlayfield::screen_width = 1600;
-const int   InitPlayfield::screen_height = 950;
+const int   InitPlayfield::screen_width = 1024;
+const int   InitPlayfield::screen_height = 768;
 
 /*---------------------------------------------------------------------------*/
 
-InitPlayfield::InitPlayfield()
+InitPlayfield::InitPlayfield(bool fullscreen)
 {
 	// DSL init
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -13,8 +13,13 @@ InitPlayfield::InitPlayfield()
 		std::cout << "Failed to init SDL\n";
 	}
 
+	int window_flag = SDL_WINDOW_OPENGL;
+
+	if(fullscreen)
+		window_flag |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+
 	// Create our window centered
-	mainWindow = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, InitPlayfield::screen_width, InitPlayfield::screen_height, SDL_WINDOW_OPENGL);
+	mainWindow = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, InitPlayfield::screen_width, InitPlayfield::screen_height, window_flag);
 
 	// check
 	if (!mainWindow)

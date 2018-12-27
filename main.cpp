@@ -20,7 +20,7 @@ void game_loop(InitPlayfield *playfield, Camera *camera, Render *render) {
 
 	//SDL_GL_SwapWindow(playfield->mainWindow);
 
-    // FPS timer
+	// FPS timer
     Timer fps_timer;
 	fps_timer.start();
 
@@ -140,11 +140,16 @@ void game_loop(InitPlayfield *playfield, Camera *camera, Render *render) {
 
 int main(int argc, char* argv[]) 
 {     
-	// SDL screen
-    InitPlayfield *playfield=new InitPlayfield();
+	// SDL screen (true = fullscreen)
+    InitPlayfield *playfield=new InitPlayfield(false);
+
+	// screen size
+	int screen_width, screen_height;
+	SDL_GetWindowSize(playfield->mainWindow, &screen_width, &screen_height);
+	std::cout << "Screen size: " << screen_width << "x" << screen_height << std::endl;
 
     // Camera(screen_width, screen_height, xcamera, ycamera_height, zcamera_distance, znear, zfar, angle_view, mouse_sensitivity, key_forward_sensitivity, key_lateral_sensitivity, key_height_sensitivity);
- 	Camera *camera = new Camera(playfield->screen_width, playfield->screen_height, 0.0, 0.0, 5.0, 1.0, 1000.0, 45.0, 0.1, 0.2, 1.0, 0.1);
+ 	Camera *camera = new Camera(screen_width, screen_height, 0.0, 0.0, 5.0, 1.0, 1000.0, 45.0, 0.1, 0.2, 1.0, 0.1);
 
 	// render->Scene() used in the main loop
  	Render *render = new Render();

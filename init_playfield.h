@@ -25,7 +25,7 @@ public:
         SDL_GLContext mainContext;
 
 public:
-       InitPlayfield();
+       InitPlayfield(bool fullscreen);
        virtual ~InitPlayfield();
 };
 
