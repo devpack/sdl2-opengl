@@ -1,12 +1,12 @@
 #include "init_playfield.h"
 
-const int   InitPlayfield::screen_width = 1024;
-const int   InitPlayfield::screen_height = 768;
-
 /*---------------------------------------------------------------------------*/
 
-InitPlayfield::InitPlayfield(bool fullscreen)
+InitPlayfield::InitPlayfield(int screen_width, int screen_height, bool fullscreen, bool vsync)
 {
+	this->screen_width = screen_width;
+	this->screen_height = screen_height;
+	
 	// DSL init
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
@@ -19,7 +19,7 @@ InitPlayfield::InitPlayfield(bool fullscreen)
 		window_flag |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 
 	// Create our window centered
-	mainWindow = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, InitPlayfield::screen_width, InitPlayfield::screen_height, window_flag);
+	mainWindow = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->screen_width, this->screen_height, window_flag);
 
 	// check
 	if (!mainWindow)
@@ -60,7 +60,12 @@ InitPlayfield::InitPlayfield(bool fullscreen)
 	// This makes our buffer swap syncronized with the monitor's vertical refresh 
 	// 1 => vsync (+-60 fps)
 	// 0 => don't wait the vsync (more fps)
-	SDL_GL_SetSwapInterval(1);
+	if(vsync) {
+		SDL_GL_SetSwapInterval(1);
+	}
+	else {
+		SDL_GL_SetSwapInterval(0);
+	}
 
 	// GLEW
     glewExperimental = GL_TRUE;

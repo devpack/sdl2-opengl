@@ -138,18 +138,37 @@ void game_loop(InitPlayfield *playfield, Camera *camera, Render *render) {
 
 /*--------------------------------- MAIN ------------------------------------*/
 
+// screen globals
+const int screen_width = 1280;
+const int screen_height = 800;
+bool fullscreen = false;
+bool vsync = true;
+
+// camera globals
+GLfloat xcamera = 0.0;
+GLfloat ycamera_height = 0.0;
+GLfloat zcamera_distance = 5.0;
+GLfloat znear = 1.0;   // Frustum culling znear
+GLfloat zfar = 1000.0; // Frustum culling zfar
+GLfloat angle_view = 45.0;
+GLfloat mouse_sensitivity = 0.1;
+GLfloat key_forward_sensitivity = 0.2;
+GLfloat key_lateral_sensitivity = 1.0;
+GLfloat key_height_sensitivity = 0.1;
+
 int main(int argc, char* argv[]) 
 {     
-	// SDL screen (true = fullscreen)
-    InitPlayfield *playfield=new InitPlayfield(false);
+	// SDL screen: InitPlayfield(fullscreen, vsync)
+    InitPlayfield *playfield=new InitPlayfield(screen_width, screen_height, fullscreen, vsync);
 
 	// screen size
-	int screen_width, screen_height;
-	SDL_GetWindowSize(playfield->mainWindow, &screen_width, &screen_height);
-	std::cout << "Screen size: " << screen_width << "x" << screen_height << std::endl;
+	int actual_screen_width, actual_screen_height;
+	SDL_GetWindowSize(playfield->mainWindow, &actual_screen_width, &actual_screen_height);
+	std::cout << "Screen size: " << actual_screen_width << "x" << actual_screen_height << std::endl;
 
-    // Camera(screen_width, screen_height, xcamera, ycamera_height, zcamera_distance, znear, zfar, angle_view, mouse_sensitivity, key_forward_sensitivity, key_lateral_sensitivity, key_height_sensitivity);
- 	Camera *camera = new Camera(screen_width, screen_height, 0.0, 0.0, 5.0, 1.0, 1000.0, 45.0, 0.1, 0.2, 1.0, 0.1);
+    // Camera(actual_screen_width, actual_screen_height, xcamera, ycamera_height, zcamera_distance, znear, zfar, angle_view, mouse_sensitivity, key_forward_sensitivity, key_lateral_sensitivity, key_height_sensitivity);
+ 	Camera *camera = new Camera(actual_screen_width, actual_screen_height, xcamera, ycamera_height, zcamera_distance, znear, zfar, angle_view, 
+	 							mouse_sensitivity, key_forward_sensitivity, key_lateral_sensitivity, key_height_sensitivity);
 
 	// render->Scene() used in the main loop
  	Render *render = new Render();

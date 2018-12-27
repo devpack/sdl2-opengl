@@ -15,8 +15,8 @@
 class InitPlayfield
 {
 public:
-       static const int   screen_width;
-       static const int   screen_height;
+       int screen_width;
+       int screen_height;
 
         // Our SDL_Window
         SDL_Window *mainWindow;
@@ -25,7 +25,7 @@ public:
         SDL_GLContext mainContext;
 
 public:
-       InitPlayfield(bool fullscreen);
+       InitPlayfield(int screen_width, int screen_height, bool fullscreen, bool vsync);
        virtual ~InitPlayfield();
 };
 
