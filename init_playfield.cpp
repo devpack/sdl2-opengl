@@ -56,6 +56,15 @@ InitPlayfield::InitPlayfield()
 	// 1 => vsync (+-60 fps)
 	// 0 => don't wait the vsync (more fps)
 	SDL_GL_SetSwapInterval(1);
+
+	// GLEW
+    glewExperimental = GL_TRUE;
+    auto init_res = glewInit();
+    if(init_res != GLEW_OK)
+    {
+        std::cout << glewGetErrorString(glewInit()) << std::endl;
+    }
+
 }
 
 /*---------------------------------------------------------------------------*/
