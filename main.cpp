@@ -1,6 +1,9 @@
 #include "init_playfield.h"
 #include "camera.h"
 #include "render.h"
+#include "timer.h"
+
+#include <sstream>
 
 /*---------------------------- EVENTS <=> Camera ----------------------------*/
 
@@ -16,6 +19,16 @@ void game_loop(InitPlayfield *playfield, Camera *camera, Render *render) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//SDL_GL_SwapWindow(playfield->mainWindow);
+
+    // FPS timer
+    Timer fps_timer;
+	fps_timer.start();
+
+    int frame = 0;
+
+    // title timer
+    Timer title_timer;
+    title_timer.start();
 
 	// key camera motion
 	bool forward = false;
@@ -91,6 +104,7 @@ void game_loop(InitPlayfield *playfield, Camera *camera, Render *render) {
 
 		} // end while poll event
 
+
 		// clear
         glClear(GL_COLOR_BUFFER_BIT);
 
@@ -103,6 +117,21 @@ void game_loop(InitPlayfield *playfield, Camera *camera, Render *render) {
 
 		// show back buffer
 		SDL_GL_SwapWindow(playfield->mainWindow);
+
+		// FPS
+        frame++;
+
+        // update once per sec
+        if( title_timer.get_ticks() > 1000 ) 
+		{
+            std::stringstream s;
+
+            s << "FPS: " << frame / ( fps_timer.get_ticks() / 1000.f );
+
+			SDL_SetWindowTitle(playfield->mainWindow, s.str().c_str());
+
+            title_timer.start();
+        }
 
 	} // end while loop
 } 

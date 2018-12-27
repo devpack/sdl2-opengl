@@ -52,7 +52,9 @@ InitPlayfield::InitPlayfield()
 	// mouse within
 	SDL_SetRelativeMouseMode(SDL_TRUE);
 
-	// This makes our buffer swap syncronized with the monitor's vertical refresh (0 for immediate)
+	// This makes our buffer swap syncronized with the monitor's vertical refresh 
+	// 1 => vsync (+-60 fps)
+	// 0 => don't wait the vsync (more fps)
 	SDL_GL_SetSwapInterval(1);
 }
 
