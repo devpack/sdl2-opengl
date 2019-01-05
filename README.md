@@ -1,4 +1,4 @@
-# SDL2 OpenGL Camera playfield
+# SDL2 OpenGL Camera (fixed pipeline, no shader)
 
 Depends on SDL2 / OpenGL / GLEW
 
